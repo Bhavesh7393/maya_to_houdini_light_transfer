@@ -15,6 +15,10 @@ rotate_parms = {"rotateX": "rx",
                 "rotateY": "ry",
                 "rotateZ": "rz"}
 
+color_light_params = {"colorR": "ar_colorr",
+                      "colorG": "ar_colorg",
+                      "colorB": "ar_colorb"}
+
 common_light_parms = {"visibility": "light_enable",
                       "intensity": "ar_intensity",
                       "aiSamples": "ar_samples",
@@ -29,10 +33,6 @@ common_light_parms = {"visibility": "light_enable",
                       "aiVolume": "ar_volume",
                       "aiMaxBounces": "ar_max_bounces",
                       "aiAov": "ar_aov"}
-
-color_light_params = {"colorR": "ar_colorr",
-                      "colorG": "ar_colorg",
-                      "colorB": "ar_colorb", }
 
 point_light_parms = {"aiExposure": "ar_exposure",
                      "aiRadius": "ar_point_radius",

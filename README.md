@@ -1,86 +1,123 @@
 # Arnold to Mantra Lights Transfer v1.0
 
 ---
-- ## Working
-  - ### Light Types
-    - Point Light
-    - Directional Light
-    - Spot Light
-    - Quad Light
-    - Disk Light
-    - Cylinder Light
-    - Skydome Light
-  - ### All Lights (Parameters)
-    - Viewport Visibility
-    - Intensity
-    - Exposure
-    - Color
-    - Color Temperature
-    - Cast Shadows
-    - Shadow Density
-    - Shadow Color
-    - Light Group
-  - ### Point Light
-    - Radius
-    - Normalize
-  - ### Directional Light
-    - Angle
-  - ### Spot Light
-    - Cone Angle
-    - Penumbra Angle
-    - Radius
-    - Normalize
-  - ### Quad Light
-    - Size
-    - Normalize
-  - ### Disk Light
-    - Size
-    - Normalize
-  - ### Cylinder Light
-    - Size
-    - Normalize
-- ## Partially Working
-  - ### All Lights (Parameters)
-    - All Light Contributions
-     `[Checkbox insted of Slider, 0.5 or greater will turn on, else turn off.]`
-      - Camera
-      - Diffuse
-      - Specular
-      - Sss
-      - Indirect
-      - Volume
-      - Transmission
-  - ### Spot Light
-    - Dropoff `[Approximation]`
-  - ### Quad Light
-    - Spread `[Approximation]`
-    - Soft Edge `[Approximation]`
-    - Roundness `[Checkbox insted of Slider, 0.5 or greater will convert to Disk Light]`
-    - Texture Map `[Should be Linear EXR, and directly connected to light.]`
-  - ### Disk Light
-    - Spread `[Approximation]`
-  - ### Skydome Light
-    - HDRI Map `[Should be Linear EXR, and directly connected to light.]`
-- ## Not Working
-  - ### Light Types
-    - Photometric Light `[Consider Future Release.]`
-    - Light Portal `[Consider Future Release.]`
-    - Physical Sun and Sky `[Consider Future Release.]`
-    - Mesh Light `[No Plans.]`
-  - ### All Lights (Parameters)
-    - Cast Volumetric Shadows `[Parameter doesn't exist.]`
-    - Volume Samples `[Parameter doesn't exist.]`
-    - Max Bounces `[Parameter doesn't exist.]`
-    - Light Linking `[No Plans.]`
-    - Light Filters `[No Plans.]`
-  - ### Spot Light
-    - Aspect Ratio `[Parameter doesn't exist.]`
-    - Lens Radius `[Parameter doesn't exist.]`
-  - ### Skydome Light
-    - Resolution `[Parameter doesn't exist.]`
-    - Format `[Parameter doesn't exist.]`
-    - Portal Mode `[Parameter doesn't exist.]`
-    - AOV Indirect `[Parameter doesn't exist.]`
+- ## Maya Arnold Lights - Houdini Mantra Lights
+  - Point Light - Point `[if radius == 0]`
+  - Point Light - Sphere `[if radius > 0]`
+  - Directional Light - Distant `[if angle == 0]`
+  - Directional Light - Sun `[if angle > 0]`
+  - Spot Light - Point `[if radius == 0]`
+  - Spot Light - Sphere `[if radius > 0]`
+  - Area/Quad Light - Grid
+  - Area/Disk Light - Disk
+  - Area/Cylinder Light - Line `[if scaleX and scaleZ == 0]`
+  - Area/Cylinder Light - Tube `[if scaleX or scaleZ > 0]`
+  - Skydome Light - Environment Light
+- # Mantra
+  - ## Working
+    - ### Light Types
+      - Point Light
+      - Directional Light
+      - Spot Light
+      - Quad Light
+      - Disk Light
+      - Cylinder Light
+      - Skydome Light
+    - ### All Lights (Parameters)
+      - Viewport Visibility
+      - Intensity
+      - Exposure
+      - Color
+      - Color Temperature
+      - Cast Shadows
+      - Shadow Density
+      - Light Group
+    - ### Point Light
+      - Radius
+      - Normalize
+      - Shadow Color
+    - ### Directional Light
+      - Angle
+      - Shadow Color
+    - ### Spot Light
+      - Cone Angle
+      - Penumbra Angle
+      - Radius
+      - Normalize
+      - Shadow Color
+    - ### Quad Light
+      - Size
+      - Normalize
+      - Shadow Color
+    - ### Disk Light
+      - Size
+      - Normalize
+      - Shadow Color
+    - ### Cylinder Light
+      - Size
+      - Normalize
+      - Shadow Color
+  - ## Partially Working
+    - ### All Lights (Parameters)
+      - All Light Contributions
+       `[Checkbox insted of Slider, 0.5 or greater will turn on, else turn off.]`
+        - Camera
+        - Diffuse
+        - Specular
+        - Sss
+        - Indirect
+        - Volume
+        - Transmission
+    - ### Spot Light
+      - Dropoff `[Approximation]`
+    - ### Quad Light
+      - Spread `[Approximation]`
+      - Soft Edge `[Approximation]`
+      - Roundness `[Checkbox insted of Slider, 0.5 or greater will convert to Disk Light]`
+      - Texture Map `[Should be Linear EXR, and directly connected to light.]`
+    - ### Disk Light
+      - Spread `[Approximation]`
+    - ### Skydome Light
+      - HDRI Map `[Should be Linear EXR, and directly connected to light.]`
+  - ## Not Working
+    - ### Light Types
+      - Photometric Light `[Consider Future Release.]`
+      - Light Portal `[Consider Future Release.]`
+      - Physical Sun and Sky `[Consider Future Release.]`
+      - Mesh Light `[No Plans.]`
+    - ### All Lights (Parameters)
+      - Cast Volumetric Shadows `[Parameter doesn't exist.]`
+      - Volume Samples `[Parameter doesn't exist.]`
+      - Max Bounces `[Parameter doesn't exist.]`
+      - Light Linking `[No Plans.]`
+      - Light Filters `[No Plans.]`
+    - ### Spot Light
+      - Aspect Ratio `[Parameter doesn't exist.]`
+      - Lens Radius `[Parameter doesn't exist.]`
+    - ### Skydome Light
+      - Resolution `[Parameter doesn't exist.]`
+      - Format `[Parameter doesn't exist.]`
+      - Portal Mode `[Parameter doesn't exist.]`
+      - Shadow Color `[Parameter doesn't exist.]`
+      - AOV Indirect `[Parameter doesn't exist.]`
+- #Arnold
+  - ## Working
+    - ### Light Types
+      - Point Light
+      - Directional Light
+      - Spot Light
+      - Quad Light
+      - Disk Light
+      - Cylinder Light
+      - Skydome Light
+  - ## Not Working
+    - ### Light Types
+      - Photometric Light `[Consider Future Release.]`
+      - Light Portal `[Consider Future Release.]`
+      - Physical Sun and Sky `[Consider Future Release.]`
+      - Mesh Light `[No Plans.]`
+    - ### Spot Light
+      - Dropoff `[Parameter doesn't exist.]`
 ---
 - ## Software Requirement:
   - Maya 2018+
@@ -96,10 +133,11 @@
   - ### Maya
     - Drag and select all the lights from the viewport.
     - Run the script.
-    - Click "Save Json File" button, and save it to desired location. (Default path is current Maya workspace "data" folder.)
+    - Click "Browse" button, and save it to desired location. (Default path is current Maya workspace "data" folder.)
     - Click "Export Lights" button.
   - ### Houdini
     - Run the script.
-    - Click "Open Json File" button, and load the Json exported file.
-    - Set "Scene Scale" if required. It will adjust Translate, Scale and Exposure. (Default value is 1.0)
+    - Click "Browse" button, and load the exported Json file.
+    - Check desired Renderer.
+    - Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 1.0)
     - Click "Import Lights" button.

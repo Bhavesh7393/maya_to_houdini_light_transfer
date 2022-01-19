@@ -38,10 +38,13 @@ bhaveshbudhkar@yahoo.com
 
 import sys
 
-path = r"C:\Users\bhave\PycharmProjects\arnold_to_mantra_light_transfer"
+path = r"C:\Users\bhave\PycharmProjects\maya_to_houdini_light_transfer"
 
 if path not in sys.path:
     sys.path.append(path)
+
+title = "Maya to Houdini Light Transfer"
+version = str(1.0)
 
 
 def main():
@@ -50,12 +53,12 @@ def main():
         try:
             from ui import maya_ui
             importlib.reload(maya_ui)
-            maya_main_ui = maya_ui.MayaUI()
+            maya_main_ui = maya_ui.MayaUI(title, version)
             maya_main_ui.show()
         except ModuleNotFoundError:
             from ui import houdini_ui
             importlib.reload(houdini_ui)
-            houdini_main_ui = houdini_ui.HoudiniUI()
+            houdini_main_ui = houdini_ui.HoudiniUI(title, version)
             houdini_main_ui.show()
         except ModuleNotFoundError:
             sys.stdout.write("Please run the script in Maya or Houdini!\n")
@@ -63,12 +66,12 @@ def main():
         try:
             from ui import maya_ui
             reload(maya_ui)
-            maya_main_ui = maya_ui.MayaUI()
+            maya_main_ui = maya_ui.MayaUI(title, version)
             maya_main_ui.show()
         except ImportError:
             from ui import houdini_ui
             reload(houdini_ui)
-            houdini_main_ui = houdini_ui.HoudiniUI()
+            houdini_main_ui = houdini_ui.HoudiniUI(title, version)
             houdini_main_ui.show()
         except ImportError:
             sys.stdout.write("Please run the script in Maya or Houdini!\n")
