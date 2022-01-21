@@ -1,17 +1,31 @@
+"""
+
+maya_to_houdini_light_parms_py3.py
+
+Only works in Python 3, due to Ordered Dictionary.
+
+Generates Json file "maya_to_houdini_light_data.json"
+
+"""
+
 import json
 
+# Translate Parameters Dictionary
 translate_parms = {"translateX": "tx",
                    "translateY": "ty",
                    "translateZ": "tz"}
 
+# Rotate  Parameters Dictionary
 rotate_parms = {"rotateX": "rx",
                 "rotateY": "ry",
                 "rotateZ": "rz"}
 
+# Color  Parameters Dictionary
 color_light_params = {"colorR": "light_colorr",
                       "colorG": "light_colorg",
                       "colorB": "light_colorb"}
 
+# Mantra Light Contribution Parameters Dictionary
 mantra_light_contrib_parms = {"diffuse": "light_contribenable1",
                               "reflect": "light_contribenable2",
                               "coat": "light_contribenable3",
@@ -21,6 +35,7 @@ mantra_light_contrib_parms = {"diffuse": "light_contribenable1",
                               "refract": "light_contribenable7",
                               "camera": "light_contribprimary"}
 
+# Mantra Common Light Parameters Dictionary
 mantra_common_light_parms = {"visibility": "light_enable",
                              "intensity": "light_intensity",
                              "aiSamples": "vm_samplingquality",
@@ -33,12 +48,14 @@ mantra_common_light_parms = {"visibility": "light_enable",
                              "aiIndirect": mantra_light_contrib_parms["indirect"],
                              "aiVolume": mantra_light_contrib_parms["volume"]}
 
+# Mantra Repeating Parameters Dictionary
 mantra_repeating_parms = {"exposure": "light_exposure",
                           "shadColorR": "shadow_colorr",
                           "shadColorG": "shadow_colorg",
                           "shadColorB": "shadow_colorb",
                           "normalize": "normalizearea"}
 
+# Mantra Per Light Parameters Dictionary
 mantra_per_light_parms = {"aiRadius": ["areasize1", "areasize2"],
                           "aiAngle": "vm_envangle",
                           "coneAngle": "coneangle",
@@ -47,11 +64,13 @@ mantra_per_light_parms = {"aiRadius": ["areasize1", "areasize2"],
                           "aiSpread": ["coneangle", "conedelta", "coneroll"],
                           "aiSoftEdge": "edgewidth"}
 
+# Mantra Point Light Parameters Dictionary
 mantra_pointP_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                              "shadColorR": mantra_repeating_parms["shadColorR"],
                              "shadColorG": mantra_repeating_parms["shadColorG"],
                              "shadColorB": mantra_repeating_parms["shadColorB"]}
 
+# Mantra Sphere Light Parameters Dictionary
 mantra_pointS_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                              "aiRadius": mantra_per_light_parms["aiRadius"],
                              "aiNormalize": mantra_repeating_parms["normalize"],
@@ -61,17 +80,20 @@ mantra_pointS_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                              "aiCamera": mantra_light_contrib_parms["camera"],
                              "aiTransmission": mantra_light_contrib_parms["refract"]}
 
+# Mantra Distant Light Parameters Dictionary
 mantra_directionalD_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                                    "shadColorR": mantra_repeating_parms["shadColorR"],
                                    "shadColorG": mantra_repeating_parms["shadColorG"],
                                    "shadColorB": mantra_repeating_parms["shadColorB"]}
 
+# Mantra Sun Light Parameters Dictionary
 mantra_directionalS_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                                    "aiAngle": mantra_per_light_parms["aiAngle"],
                                    "shadColorR": mantra_repeating_parms["shadColorR"],
                                    "shadColorG": mantra_repeating_parms["shadColorG"],
                                    "shadColorB": mantra_repeating_parms["shadColorB"]}
 
+# Mantra Spot Light Point Light Parameters Dictionary
 mantra_spotP_light_parms = {"coneAngle": mantra_per_light_parms["coneAngle"],
                             "penumbraAngle": mantra_per_light_parms["penumbraAngle"],
                             "dropoff": mantra_per_light_parms["dropoff"],
@@ -80,6 +102,7 @@ mantra_spotP_light_parms = {"coneAngle": mantra_per_light_parms["coneAngle"],
                             "shadColorG": mantra_repeating_parms["shadColorG"],
                             "shadColorB": mantra_repeating_parms["shadColorB"]}
 
+# Mantra Spot Light Sphere Light Parameters Dictionary
 mantra_spotS_light_parms = {"coneAngle": mantra_per_light_parms["coneAngle"],
                             "penumbraAngle": mantra_per_light_parms["penumbraAngle"],
                             "dropoff": mantra_per_light_parms["dropoff"],
@@ -90,6 +113,7 @@ mantra_spotS_light_parms = {"coneAngle": mantra_per_light_parms["coneAngle"],
                             "shadColorG": mantra_repeating_parms["shadColorG"],
                             "shadColorB": mantra_repeating_parms["shadColorB"]}
 
+# Mantra Grid Light Parameters Dictionary
 mantra_area_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                            "scaleX": "areasize1",
                            "scaleY": "areasize2",
@@ -103,6 +127,7 @@ mantra_area_light_parms = {"aiExposure": mantra_repeating_parms["exposure"],
                            "aiCamera": mantra_light_contrib_parms["camera"],
                            "aiTransmission": mantra_light_contrib_parms["refract"]}
 
+# Mantra Grid Light Parameters Dictionary
 mantra_quad_light_parms = {"exposure": mantra_repeating_parms["exposure"],
                            "scaleX": "areasize1",
                            "scaleY": "areasize2",
@@ -116,6 +141,7 @@ mantra_quad_light_parms = {"exposure": mantra_repeating_parms["exposure"],
                            "aiCamera": mantra_light_contrib_parms["camera"],
                            "aiTransmission": mantra_light_contrib_parms["refract"]}
 
+# Mantra Disk Light Parameters Dictionary
 mantra_disk_light_parms = {"exposure": mantra_repeating_parms["exposure"],
                            "scaleX": "areasize1",
                            "scaleY": "areasize2",
@@ -127,6 +153,7 @@ mantra_disk_light_parms = {"exposure": mantra_repeating_parms["exposure"],
                            "aiCamera": mantra_light_contrib_parms["camera"],
                            "aiTransmission": mantra_light_contrib_parms["refract"]}
 
+# Mantra Tube Light Parameters Dictionary
 mantra_cylinderC_light_parms = {"rotateX": "ry",
                                 "rotateY": "rx",
                                 "rotateZ": "rz",
@@ -141,6 +168,7 @@ mantra_cylinderC_light_parms = {"rotateX": "ry",
                                 "aiCamera": mantra_light_contrib_parms["camera"],
                                 "aiTransmission": mantra_light_contrib_parms["refract"]}
 
+# Mantra Line Light Parameters Dictionary
 mantra_cylinderL_light_parms = {"rotateX": "ry",
                                 "rotateY": "rx",
                                 "rotateZ": "rz",
@@ -151,20 +179,26 @@ mantra_cylinderL_light_parms = {"rotateX": "ry",
                                 "aiShadowColorG": mantra_repeating_parms["shadColorG"],
                                 "aiShadowColorB": mantra_repeating_parms["shadColorB"]}
 
+# Mantra Environment Light Parameters Dictionary
 mantra_skydome_light_parms = {"exposure": mantra_repeating_parms["exposure"],
                               "camera": mantra_light_contrib_parms["camera"],
                               "transmission": mantra_light_contrib_parms["refract"]}
 
+# Mantra Light Types Dictionary
 mantra_light_type = ["pointLightP", "pointLightS", "directionalLightD", "directionalLightS", "spotLightP", "spotLightS",
                      "areaLight", "quad", "disk", "cylinderC", "cylinderL", "aiSkyDomeLight"]
 
+# Mantra Light Node Type Dictionary
 mantra_light_node_type = ["hlight::2.0", "hlight::2.0", "hlight::2.0", "hlight::2.0", "hlight::2.0", "hlight::2.0",
                           "hlight::2.0", "hlight::2.0", "hlight::2.0", "hlight::2.0", "hlight::2.0", "envlight"]
 
+# Mantra Light Node Sub-Type Dictionary e.g. Point, Spot
 mantra_light_node_sub_type = [0, 4, 7, 8, 0, 4, 2, 2, 3, 5, 1, ""]
 
+# Mantra Light Number of Contributions Dictionary e.g. Diffuse, Specular
 mantra_num_of_light_contrib = [6, 7, 6, 6, 6, 6, 7, 7, 7, 7, 6, 7]
 
+# Mantra Light Parameters Combine Dictionary
 mantra_light_parms = [
     {**translate_parms, **rotate_parms, **mantra_common_light_parms, **color_light_params, **mantra_pointP_light_parms},
     {**translate_parms, **rotate_parms, **mantra_common_light_parms, **color_light_params, **mantra_pointS_light_parms},
@@ -182,11 +216,14 @@ mantra_light_parms = [
     {**translate_parms, **rotate_parms, **mantra_common_light_parms, **color_light_params,
      **mantra_skydome_light_parms}]
 
+# Arnold Light Types Dictionary
 arnold_light_type = ["pointLight", "directionalLight", "spotLight", "areaLight", "quad", "disk", "cylinder",
                      "aiSkyDomeLight"]
 
+# Arnold Light Node Sub-Type Dictionary e.g. Point, Spot
 arnold_light_node_sub_type = [0, 1, 2, 3, 3, 4, 5, 6]
 
+# Arnold Light Contribution Parameters Dictionary
 arnold_light_contrib_parms = {"aiDiffuse": "ar_diffuse",
                               "aiSpecular": "ar_specular",
                               "aiSss": "ar_sss",
@@ -195,6 +232,7 @@ arnold_light_contrib_parms = {"aiDiffuse": "ar_diffuse",
                               "aiTransmission": "ar_transmission",
                               "aiCamera": "ar_camera"}
 
+# Arnold Common Light Parameters Dictionary
 arnold_common_light_parms = {"visibility": "light_enable",
                              "intensity": "ar_intensity",
                              "aiSamples": "ar_samples",
@@ -210,12 +248,14 @@ arnold_common_light_parms = {"visibility": "light_enable",
                              "aiMaxBounces": "ar_max_bounces",
                              "aiAov": "ar_aov"}
 
+# Arnold Repeating Parameters Dictionary
 arnold_repeating_parms = {"exposure": "ar_exposure",
                           "shadColorR": "ar_shadow_colorr",
                           "shadColorG": "ar_shadow_colorg",
                           "shadColorB": "ar_shadow_colorb",
                           "normalize": "ar_normalize"}
 
+# Arnold Per Light Parameters Dictionary
 arnold_per_light_parms = {"aiAngle": "ar_angle",
                           "coneAngle": "ar_cone_angle",
                           "penumbraAngle": "ar_penumbra_angle",
@@ -225,6 +265,7 @@ arnold_per_light_parms = {"aiAngle": "ar_angle",
                           "scaleX": "ar_quad_sizex",
                           "scaleY": "ar_quad_sizey"}
 
+# Arnold Point Light Parameters Dictionary
 arnold_point_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                             "aiRadius": "ar_point_radius",
                             "aiNormalize": arnold_repeating_parms["normalize"],
@@ -234,6 +275,7 @@ arnold_point_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                             "aiCamera": arnold_light_contrib_parms["aiCamera"],
                             "aiTransmission": arnold_light_contrib_parms["aiTransmission"]}
 
+# Arnold Directional Light Parameters Dictionary
 arnold_directional_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                                   "aiAngle": arnold_per_light_parms["aiAngle"],
                                   "aiNormalize": arnold_repeating_parms["normalize"],
@@ -241,6 +283,7 @@ arnold_directional_light_parms = {"aiExposure": arnold_repeating_parms["exposure
                                   "shadColorG": arnold_repeating_parms["shadColorG"],
                                   "shadColorB": arnold_repeating_parms["shadColorB"]}
 
+# Arnold Spot Light Parameters Dictionary
 arnold_spot_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                            "aiRoundness": "ar_spot_roundness",
                            "coneAngle": arnold_per_light_parms["coneAngle"],
@@ -253,6 +296,7 @@ arnold_spot_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                            "shadColorG": arnold_repeating_parms["shadColorG"],
                            "shadColorB": arnold_repeating_parms["shadColorB"]}
 
+# Arnold Area Light Parameters Dictionary
 arnold_area_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                            "aiRoundness": arnold_per_light_parms["aiRoundness"],
                            "aiSoftEdge": arnold_per_light_parms["aiSoftEdge"],
@@ -266,6 +310,7 @@ arnold_area_light_parms = {"aiExposure": arnold_repeating_parms["exposure"],
                            "aiCamera": arnold_light_contrib_parms["aiCamera"],
                            "aiTransmission": arnold_light_contrib_parms["aiTransmission"]}
 
+# Arnold Quad Light Parameters Dictionary
 arnold_quad_light_parms = {"exposure": arnold_repeating_parms["exposure"],
                            "aiRoundness": arnold_per_light_parms["aiRoundness"],
                            "aiSoftEdge": arnold_per_light_parms["aiSoftEdge"],
@@ -279,6 +324,7 @@ arnold_quad_light_parms = {"exposure": arnold_repeating_parms["exposure"],
                            "aiCamera": arnold_light_contrib_parms["aiCamera"],
                            "aiTransmission": arnold_light_contrib_parms["aiTransmission"]}
 
+# Arnold Disk Light Parameters Dictionary
 arnold_disk_light_parms = {"exposure": arnold_repeating_parms["exposure"],
                            "aiRoundness": arnold_per_light_parms["aiRoundness"],
                            "aiSoftEdge": arnold_per_light_parms["aiSoftEdge"],
@@ -292,6 +338,7 @@ arnold_disk_light_parms = {"exposure": arnold_repeating_parms["exposure"],
                            "aiCamera": arnold_light_contrib_parms["aiCamera"],
                            "aiTransmission": arnold_light_contrib_parms["aiTransmission"]}
 
+# Arnold Cylinder Light Parameters Dictionary
 arnold_cylinder_light_parms = {"exposure": arnold_repeating_parms["exposure"],
                                "scaleX": "ar_cylinder_radius",
                                "scaleY": "ar_height",
@@ -303,6 +350,7 @@ arnold_cylinder_light_parms = {"exposure": arnold_repeating_parms["exposure"],
                                "aiCamera": arnold_light_contrib_parms["aiCamera"],
                                "aiTransmission": arnold_light_contrib_parms["aiTransmission"]}
 
+# Arnold Skydome Light Parameters Dictionary
 arnold_skydome_light_parms = {"resolution": "ar_resolution",
                               "format": "ar_format",
                               "exposure": arnold_repeating_parms["exposure"],
@@ -313,6 +361,7 @@ arnold_skydome_light_parms = {"resolution": "ar_resolution",
                               "transmission": arnold_light_contrib_parms["aiTransmission"],
                               "aiAovIndirect": "ar_aov_indirect"}
 
+# Arnold Light Parameters Combine Dictionary
 arnold_light_parms = [
     {**translate_parms, **rotate_parms, **arnold_common_light_parms, **color_light_params, **arnold_point_light_parms},
     {**translate_parms, **rotate_parms, **arnold_common_light_parms, **color_light_params,
@@ -326,12 +375,16 @@ arnold_light_parms = [
     {**translate_parms, **rotate_parms, **arnold_common_light_parms, **color_light_params,
      **arnold_skydome_light_parms}]
 
+# Main Light Data Dictionary
 light_data_dict = {}
 
+# Mantra Light Data Dictionary
 mantra_light_data_dict = {}
 
+# Arnold Light Data Dictionary
 arnold_light_data_dict = {}
 
+# Dictionary Generation
 for a, b, c, d, e in zip(mantra_light_type, mantra_light_node_type, mantra_light_node_sub_type,
                          mantra_num_of_light_contrib, mantra_light_parms):
     mantra_light_data_dict.setdefault(a, {})["light_node_type"] = b
@@ -349,6 +402,7 @@ light_data_dict["Arnold"] = arnold_light_data_dict
 light_data_dict["light_contribution_parms"] = mantra_light_contrib_parms
 light_data_dict["color_light_params"] = color_light_params
 
+# Json Export
 path = r"C:\Users\bhave\PycharmProjects\maya_to_houdini_light_transfer\logic\maya_to_houdini_light_data.json"
 
 with open(path, "w") as json_file:

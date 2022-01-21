@@ -1,3 +1,11 @@
+"""
+
+houdini_ui.py
+
+Loads UI inside Houdini
+
+"""
+
 import sys
 import hou
 from PySide2 import QtCore, QtWidgets, QtGui
@@ -19,9 +27,6 @@ def hou_main_window():
 
 
 class HoudiniUI(QtWidgets.QWidget):
-    TITLE = "Arnold to Mantra Light Transfer"
-    VERSION = 1.0
-
     def __init__(self, title, version, parent=hou_main_window()):
         super(HoudiniUI, self).__init__(parent)
 
@@ -131,4 +136,6 @@ class HoudiniUI(QtWidgets.QWidget):
 
 if __name__ == "builtins":
     hou_ui = HoudiniUI()
+    hou_ui.import_line.setText(r"C:/Users/bhave/Documents/maya/projects/default/data/test.json")
+    hou_ui.arnold_check.setChecked(True)
     hou_ui.show()

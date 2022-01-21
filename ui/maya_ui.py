@@ -1,3 +1,11 @@
+"""
+
+maya_ui.py
+
+Loads UI inside Maya
+
+"""
+
 import os
 import sys
 from PySide2 import QtWidgets, QtCore, QtGui
@@ -103,4 +111,5 @@ class MayaUI(QtWidgets.QWidget):
 
 if __name__ == "__main__":
     maya_ui = MayaUI()
+    maya_ui.export_line.setText(r"C:/Users/bhave/Documents/maya/projects/default/data/test.json")
     maya_ui.show()

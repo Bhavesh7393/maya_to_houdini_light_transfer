@@ -22,12 +22,13 @@ How to use
     Maya
         Drag and select all the lights from the viewport.
         Run the script.
-        Click "Save Json File" button, and save it to desired location. (Default path is current Maya workspace "data" folder.)
+        Click "Browse" button, and save it to desired location. (Default path is current Maya workspace "data" folder.)
         Click "Export Lights" button.
     Houdini
         Run the script.
-        Click "Open Json File" button, and load the Json exported file.
-        Set "Scene Scale" if required. It will adjust Translate, Scale and Exposure. (Default value is 1.0)
+        Click "Browse" button, and load the exported Json file.
+        Check desired Renderer.
+        Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 1.0)
         Click "Import Lights" button.
 
 Author:

@@ -1,3 +1,11 @@
+"""
+
+maya_logic.py
+
+This file contains all the Maya logic to generate Json file for selected Lights.
+
+"""
+
 import os
 import sys
 import json

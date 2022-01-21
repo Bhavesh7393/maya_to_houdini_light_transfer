@@ -1,5 +1,33 @@
-# Arnold to Mantra Lights Transfer v1.0
+# Maya to Houdini Light Transfer v1.0
 
+---
+- ## Features
+  - Compatible with 2 Houdini Renderers.
+    - Mantra
+    - Arnold
+  - Adjust Scene Scale.
+  - No duplication of Lights in Houdini while Importing it multiple times.
+- ## Software Requirement:
+  - Maya 2018+ with Arnold
+  - Houdini 16+ with Mantra or Arnold
+---
+- ## Installation
+  1. Open "ui_launcher.py" in notepad or equivalent software.
+  2. Replace "path" variable with your script folder path.
+  3. Save script in Maya and Houdini Shelf.
+---
+- ## How to use
+  - ### Maya
+    - Drag and select all the lights from the viewport.
+    - Run the script.
+    - Click "Browse" button, and save Json file to desired location. (Default path is current Maya workspace "data" folder.)
+    - Click "Export Lights" button.
+  - ### Houdini
+    - Run the script.
+    - Click "Browse" button, and load the exported Json file.
+    - Tick desired Renderer.
+    - Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 1.0)
+    - Click "Import Lights" button.
 ---
 - ## Maya Arnold Lights - Houdini Mantra Lights
   - Point Light - Point `[if radius == 0]`
@@ -119,25 +147,3 @@
     - ### Spot Light
       - Dropoff `[Parameter doesn't exist.]`
 ---
-- ## Software Requirement:
-  - Maya 2018+
-  - Houdini 16+
-  - Python 2 or 3
----
-- ## Installation
-  1. Open "ui_launcher.py"
-  2. Replace "Path" variable with your script folder path.
-  3. Save script in Maya and Houdini Shelf.
----
-- ## How to use
-  - ### Maya
-    - Drag and select all the lights from the viewport.
-    - Run the script.
-    - Click "Browse" button, and save it to desired location. (Default path is current Maya workspace "data" folder.)
-    - Click "Export Lights" button.
-  - ### Houdini
-    - Run the script.
-    - Click "Browse" button, and load the exported Json file.
-    - Check desired Renderer.
-    - Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 1.0)
-    - Click "Import Lights" button.
