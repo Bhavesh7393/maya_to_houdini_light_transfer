@@ -6,19 +6,11 @@ Loads UI inside Maya
 
 """
 
-import os
-import sys
 from PySide2 import QtWidgets, QtCore, QtGui
 from shiboken2 import wrapInstance
 import maya.OpenMayaUI as omui
-import maya.cmds as cmds
 
-from logic import maya_logic
-if sys.version[0] == "3":
-    import importlib
-    importlib.reload(maya_logic)
-else:
-    reload(maya_logic)
+from logic.maya_logic import *
 
 
 def maya_main_window():
@@ -31,7 +23,16 @@ def maya_main_window():
 
 
 class MayaUI(QtWidgets.QWidget):
+    """
+    Maya UI Class
+    """
     def __init__(self, title, version, parent=maya_main_window()):
+        """
+        Maya UI Init
+        :param title: Tool Name
+        :param version: Tool Version
+        :param parent: Parent Window
+        """
         super(MayaUI, self).__init__(parent)
 
         self.title = title
@@ -46,9 +47,11 @@ class MayaUI(QtWidgets.QWidget):
         self.create_layouts()
         self.create_connections()
 
-        self.export_line.setText(r"C:/Users/bhave/Documents/maya/projects/default/data/test.json")
-
     def create_widgets(self):
+        """
+        Create UI Widgets
+        :return: None
+        """
         self.header = QtWidgets.QLabel(self.title)
         self.header.setAlignment(QtCore.Qt.AlignHCenter)
         self.header.setFont(QtGui.QFont("Arial", 16))
@@ -68,11 +71,15 @@ class MayaUI(QtWidgets.QWidget):
         self.author_label.setDisabled(True)
         self.author_label.setAlignment(QtCore.Qt.AlignLeft)
 
-        self.version_label = QtWidgets.QLabel("v{0}".format(self.version))
-        self.version_label.setDisabled(True)
-        self.version_label.setAlignment(QtCore.Qt.AlignRight)
+        self.email_label = QtWidgets.QLabel("bhaveshbudhkar@yahoo.com")
+        self.email_label.setDisabled(True)
+        self.email_label.setAlignment(QtCore.Qt.AlignRight)
 
     def create_layouts(self):
+        """
+        Create UI Layouts
+        :return: None
+        """
         self.export_layout = QtWidgets.QHBoxLayout()
         self.export_layout.addWidget(self.export_label)
         self.export_layout.addWidget(self.export_line)
@@ -81,7 +88,7 @@ class MayaUI(QtWidgets.QWidget):
 
         self.info_layout = QtWidgets.QHBoxLayout()
         self.info_layout.addWidget(self.author_label)
-        self.info_layout.addWidget(self.version_label)
+        self.info_layout.addWidget(self.email_label)
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.main_layout.addWidget(self.header)
@@ -92,10 +99,18 @@ class MayaUI(QtWidgets.QWidget):
         self.setLayout(self.main_layout)
 
     def create_connections(self):
+        """
+        Signals and Slots
+        :return: None
+        """
         self.export_open.clicked.connect(self.get_json_file_path)
         self.export_btn.clicked.connect(self.export_json_file)
 
     def get_json_file_path(self):
+        """
+        Open File Browser and Save Json file path
+        :return: None
+        """
         current_directory = cmds.workspace(q=True, rd=True)
         data_folder = os.path.join(current_directory, "data")
         if os.path.exists(data_folder):
@@ -104,12 +119,10 @@ class MayaUI(QtWidgets.QWidget):
         self.export_line.setText(save_file)
 
     def export_json_file(self):
-        maya_logic.export_json_file(self.export_line.text())
+        """
+        Export Lights to Json file
+        :return: None
+        """
+        export_json_file(self.export_line.text())
         self.close()
         self.deleteLater()
-
-
-if __name__ == "__main__":
-    maya_ui = MayaUI()
-    maya_ui.export_line.setText(r"C:/Users/bhave/Documents/maya/projects/default/data/test.json")
-    maya_ui.show()

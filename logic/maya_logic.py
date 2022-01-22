@@ -11,9 +11,13 @@ import sys
 import json
 import maya.cmds as cmds
 
+# Current script path
 package_path = os.path.dirname(os.path.realpath(__file__))
+
+# Json file path
 json_file_path = os.path.join(package_path, "maya_to_houdini_light_data.json")
 
+# Load maya_to_houdini_light_data Json for py2 or py3
 if sys.version[0] == "3":
     with open(json_file_path, "r") as json_file:
         light_data = json.load(json_file)
@@ -24,19 +28,31 @@ else:
 
 
 def lights_list():
+    """
+    List of selected Lights in Maya.
+    :return: Lights list
+    """
+
+    # Viewport Selection
     selection = cmds.ls(selection=True, long=True)
+
+    # Lights list
     lights = cmds.listRelatives(selection, fullPath=True,
                                 type=["directionalLight", "pointLight", "spotLight", "areaLight", "aiAreaLight",
                                       "aiSkyDomeLight"])
 
     all_lights = []
 
+    # Removing volumeLight from the list if exists
     if lights:
         for light in lights:
             if cmds.nodeType(light) != "volumeLight":
                 all_lights.append(light)
 
+    # Light Transform node
     lights_transform = cmds.listRelatives(all_lights, parent=True, fullPath=True)
+
+    # convert "|" with "_"
     lights_transform_name = []
     for slash in lights_transform:
         lights_transform_name.append(slash.replace("|", "_")[1:])
@@ -45,16 +61,26 @@ def lights_list():
 
 
 def export_json_file(path):
+    """
+    Export selected Lights from Viewport to Json file.
+    :param path: Json file path
+    :return: None
+    """
+    # Lights list
     lights = lights_list()
     light_list = lights[0]
     light_shape_list = lights[1]
     light_list_name = lights[2]
 
+    # Dictionary to save Lights Data py2 or py3
     if sys.version[0] == "3":
         light_export_data = {}
     else:
         light_export_data = OrderedDict()
+
+    # Loop through Lights
     for light in range(len(light_list)):
+        # Dictionaries to store data py2 or py3
         if sys.version[0] == "3":
             mantra_parms_dict = {}
             arnold_parms_dict = {}
@@ -66,10 +92,17 @@ def export_json_file(path):
             mantra_dict = OrderedDict()
             arnold_dict = OrderedDict()
 
+        # Node Type of the Light
         node_type = cmds.nodeType(light_shape_list[light])
 
+        # Get Light World Position
+        translate = cmds.xform(light_list[light], q=True, translation=True, worldSpace=True)
+
+        # Loop through Renderers
         for renderer in light_data:
+            # Arnold specific changes
             if renderer == "Arnold":
+                # Save nodeType in dictionary
                 arnold_parms_dict["nodeType"] = node_type
 
                 if node_type == "aiAreaLight":
@@ -81,9 +114,11 @@ def export_json_file(path):
                     elif light_type == "cylinder":
                         arnold_parms_dict["nodeType"] = "{0}".format(light_type)
 
+                # Save all Parameters in dictionary
                 for parm in light_data[renderer][arnold_parms_dict["nodeType"]]["light_parms"]:
+                    # Get Parameter Value
                     value = cmds.getAttr("{0}.{1}".format(light_list[light], parm))
-                    translate = cmds.xform(light_list[light], q=True, translation=True, worldSpace=True)
+
                     if parm == "aiAov" and value == "default":
                         arnold_parms_dict[parm] = ""
                     elif parm == "aiAov" and value != "default":
@@ -97,7 +132,9 @@ def export_json_file(path):
                     else:
                         arnold_parms_dict[parm] = value
 
+            # Mantra specific changes
             elif renderer == "Mantra":
+                # Save nodeType in dictionary
                 if node_type == "pointLight":
                     if not cmds.getAttr("{0}.aiRadius".format(light_shape_list[light])):
                         mantra_parms_dict["nodeType"] = "{0}P".format(node_type)
@@ -129,9 +166,9 @@ def export_json_file(path):
                 elif node_type == "aiSkyDomeLight":
                     mantra_parms_dict["nodeType"] = "{0}".format(node_type)
 
+                # Save all Parameters in dictionary
                 for parm in light_data[renderer][mantra_parms_dict["nodeType"]]["light_parms"]:
                     value = cmds.getAttr("{0}.{1}".format(light_list[light], parm))
-                    translate = cmds.xform(light_list[light], q=True, translation=True, worldSpace=True)
                     if parm == "aiAov" and value == "default":
                         mantra_parms_dict[parm] = ""
                     elif parm == "aiAov" and value != "default":
@@ -145,7 +182,9 @@ def export_json_file(path):
                     else:
                         mantra_parms_dict[parm] = value
 
+        # Get Color or Color Temperature or Texture plug data
         if bool(cmds.connectionInfo("{0}.color".format(light_list[light]), sourceFromDestination=True)):
+            # If Color Temeprature is On, then skip Texture plug in the Light
             if cmds.getAttr("{0}.aiUseColorTemperature".format(light_list[light])):
                 kelvin_temp = cmds.getAttr("{0}.aiColorTemperature".format(light_list[light]))
                 color_temp = cmds.arnoldTemperatureToColor(kelvin_temp)
@@ -155,6 +194,7 @@ def export_json_file(path):
                 mantra_parms_dict["texture_map"] = ""
                 arnold_parms_dict["texture_map"] = ""
 
+            # Get Texture path and save it in dictionary
             file_node = cmds.connectionInfo("{0}.color".format(light_list[light]), sourceFromDestination=True)
             split = file_node.split(".")
             node_type = cmds.nodeType(split[0])
@@ -171,6 +211,7 @@ def export_json_file(path):
             mantra_parms_dict["texture_map"] = texture_path
             arnold_parms_dict["texture_map"] = texture_path
         else:
+            # Convert Color Temperature to RGB and store it in dictionary
             if cmds.getAttr("{0}.aiUseColorTemperature".format(light_list[light])):
                 kelvin_temp = cmds.getAttr("{0}.aiColorTemperature".format(light_list[light]))
                 color_temp = cmds.arnoldTemperatureToColor(kelvin_temp)
@@ -183,13 +224,16 @@ def export_json_file(path):
                     mantra_parms_dict[color] = value
                     arnold_parms_dict[color] = value
 
+        # Compile dictionaries
         mantra_dict["Mantra"] = mantra_parms_dict
         arnold_dict["Arnold"] = arnold_parms_dict
 
         light_export_data[light_list_name[light]] = mantra_dict
         light_export_data[light_list_name[light]].update(arnold_dict)
 
+    # Export Json file
     with open(path, "w") as json_maya_file:
         json.dump(light_export_data, json_maya_file, indent=4, ensure_ascii=False)
 
-    sys.stdout.write("Lights exported.\n")
+    # Show Message on Status Bar
+    sys.stdout.write("Lights exported to {0}\n".format(path))

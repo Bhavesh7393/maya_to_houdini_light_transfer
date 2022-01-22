@@ -6,16 +6,9 @@ Loads UI inside Houdini
 
 """
 
-import sys
-import hou
 from PySide2 import QtCore, QtWidgets, QtGui
 
-from logic import houdini_logic
-if sys.version[0] == "3":
-    import importlib
-    importlib.reload(houdini_logic)
-else:
-    reload(houdini_logic)
+from logic.houdini_logic import *
 
 
 def hou_main_window():
@@ -27,7 +20,16 @@ def hou_main_window():
 
 
 class HoudiniUI(QtWidgets.QWidget):
+    """
+    Houdini UI Class
+    """
     def __init__(self, title, version, parent=hou_main_window()):
+        """
+        Houdini UI Init
+        :param title: Tool Name
+        :param version: Tool Version
+        :param parent: Parent Window
+        """
         super(HoudiniUI, self).__init__(parent)
 
         self.title = title
@@ -36,15 +38,17 @@ class HoudiniUI(QtWidgets.QWidget):
         self.setWindowTitle("{0} v{1}".format(self.title, self.version))
 
         self.setWindowFlags(self.windowFlags() ^ QtCore.Qt.WindowContextHelpButtonHint | QtCore.Qt.Window)
-        self.setFixedSize(650, 160)
+        self.setFixedSize(600, 160)
 
         self.create_widgets()
         self.create_layouts()
         self.create_connections()
 
-        self.import_line.setText(r"C:/Users/bhave/Documents/maya/projects/default/data/test.json")
-
     def create_widgets(self):
+        """
+        Create UI Widgets
+        :return: None
+        """
         self.header = QtWidgets.QLabel(self.title)
         self.header.setAlignment(QtCore.Qt.AlignHCenter)
         self.header.setFont(QtGui.QFont("Arial", 16))
@@ -62,14 +66,13 @@ class HoudiniUI(QtWidgets.QWidget):
         self.mantra_check = QtWidgets.QCheckBox("Mantra")
 
         self.arnold_check = QtWidgets.QCheckBox("Arnold")
-        self.arnold_check.setChecked(True)
 
         self.scale_label = QtWidgets.QLabel("Scale:")
         self.scale_label.setAlignment(QtCore.Qt.AlignRight)
 
         self.scale_double_spin = QtWidgets.QDoubleSpinBox()
         self.scale_double_spin.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-        self.scale_double_spin.setValue(1)
+        self.scale_double_spin.setValue(0.1)
         self.scale_double_spin.setDecimals(3)
         self.scale_double_spin.setRange(0.001, 1000)
 
@@ -82,11 +85,15 @@ class HoudiniUI(QtWidgets.QWidget):
         self.author_label.setDisabled(True)
         self.author_label.setAlignment(QtCore.Qt.AlignLeft)
 
-        self.version_label = QtWidgets.QLabel("v{0}".format(self.version))
-        self.version_label.setDisabled(True)
-        self.version_label.setAlignment(QtCore.Qt.AlignRight)
+        self.email_label = QtWidgets.QLabel("bhaveshbudhkar@yahoo.com")
+        self.email_label.setDisabled(True)
+        self.email_label.setAlignment(QtCore.Qt.AlignRight)
 
     def create_layouts(self):
+        """
+        Create UI Layouts
+        :return: None
+        """
         self.grid_layout = QtWidgets.QGridLayout()
         self.grid_layout.addWidget(self.import_label, 0, 0)
         self.grid_layout.addWidget(self.import_line, 0, 1)
@@ -108,7 +115,7 @@ class HoudiniUI(QtWidgets.QWidget):
 
         self.info_layout = QtWidgets.QHBoxLayout()
         self.info_layout.addWidget(self.author_label)
-        self.info_layout.addWidget(self.version_label)
+        self.info_layout.addWidget(self.email_label)
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.main_layout.addWidget(self.header)
@@ -119,23 +126,28 @@ class HoudiniUI(QtWidgets.QWidget):
         self.setLayout(self.main_layout)
 
     def create_connections(self):
+        """
+        Signals and Slots
+        :return: None
+        """
         self.import_open.clicked.connect(self.import_json_file_path)
         self.import_btn.clicked.connect(self.import_lights)
 
     def import_json_file_path(self):
+        """
+        Open File Browser and Open Json file
+        :return: None
+        """
         current_directory = hou.homeHoudiniDirectory()
         save_file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Open", current_directory, "JSON Files (*.json)")
         self.import_line.setText(save_file)
 
     def import_lights(self):
-        houdini_logic.import_json_file(self.import_line.text(), self.scale_double_spin.value(),
-                                       self.mantra_check.isChecked(), self.arnold_check.isChecked())
+        """
+        Import Lights from Json file
+        :return: None
+        """
+        import_json_file(self.import_line.text(), self.scale_double_spin.value(),
+                         self.mantra_check.isChecked(), self.arnold_check.isChecked())
         self.close()
         self.deleteLater()
-
-
-if __name__ == "builtins":
-    hou_ui = HoudiniUI()
-    hou_ui.import_line.setText(r"C:/Users/bhave/Documents/maya/projects/default/data/test.json")
-    hou_ui.arnold_check.setChecked(True)
-    hou_ui.show()
