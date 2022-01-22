@@ -129,8 +129,7 @@
       - Portal Mode `[Parameter doesn't exist.]`
       - Shadow Color `[Parameter doesn't exist.]`
       - AOV Indirect `[Parameter doesn't exist.]`
----
-- #Arnold
+- # Arnold
   - ## Working
     - ### Light Types
       - Point Light
