@@ -1,6 +1,12 @@
 # Maya to Houdini Light Transfer v1.0
 
 ---
+# Maya UI
+![Maya UI](ui/maya_ui.jpeg)
+# Houdini UI
+![Houdini UI](ui/houdini_ui.jpeg)
+
+---
 - ## Features
   - Compatible with 2 Houdini Renderers.
     - Mantra
