@@ -26,9 +26,9 @@ How to use
         Click "Export Lights" button.
     Houdini
         Run the script.
-        Click "Browse" button, and load the exported Json file.
-        Check desired Renderer.
-        Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 1.0)
+        Click "Browse" button, and load the exported Json file. (Default path is current Houdini workspace folder.)
+        Tick desired Renderer.
+        Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 0.1)
         Click "Import Lights" button.
 
 Author:
@@ -39,7 +39,7 @@ bhaveshbudhkar@yahoo.com
 
 import sys
 
-path = r"C:\Users\bhave\PycharmProjects\maya_to_houdini_light_transfer"
+path = r"system_directory_path\maya_to_houdini_light_transfer"
 
 if path not in sys.path:
     sys.path.append(path)

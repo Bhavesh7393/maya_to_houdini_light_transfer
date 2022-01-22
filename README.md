@@ -7,14 +7,15 @@
     - Arnold
   - Adjust Scene Scale.
   - No duplication of Lights in Houdini while Importing it multiple times.
+  - Works with Python 2 and 3 both.
 - ## Software Requirement:
   - Maya 2018+ with Arnold
   - Houdini 16+ with Mantra or Arnold
 ---
 - ## Installation
-  1. Open "ui_launcher.py" in notepad or equivalent software.
-  2. Replace "path" variable with your script folder path.
-  3. Save script in Maya and Houdini Shelf.
+  - Open "ui_launcher.py" in notepad or equivalent software.
+  - Replace "path" variable with your script folder path.
+  - Save script in Maya and Houdini Shelf.
 ---
 - ## How to use
   - ### Maya
@@ -24,9 +25,9 @@
     - Click "Export Lights" button.
   - ### Houdini
     - Run the script.
-    - Click "Browse" button, and load the exported Json file.
+    - Click "Browse" button, and load the exported Json file. (Default path is current Houdini workspace folder.)
     - Tick desired Renderer.
-    - Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 1.0)
+    - Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 0.1)
     - Click "Import Lights" button.
 ---
 - ## Maya Arnold Lights - Houdini Mantra Lights
