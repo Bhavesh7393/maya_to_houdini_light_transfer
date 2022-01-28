@@ -2,9 +2,9 @@
 
 ---
 # Maya UI
-![Maya UI](ui/maya_ui.jpeg)
+![Maya UI](images/maya_ui.jpeg)
 # Houdini UI
-![Houdini UI](ui/houdini_ui.jpeg)
+![Houdini UI](images/houdini_ui.jpeg)
 
 ---
 - ## Features
@@ -32,7 +32,7 @@
   - ### Houdini
     - Run the script.
     - Click "Browse" button, and load the exported Json file. (Default path is current Houdini workspace folder.)
-    - Tick desired Renderer.
+    - Check on desired Renderer.
     - Set "Scene Scale" if required. It will adjust Translate, Scale, Exposure and Radius. (Default value is 0.1)
     - Click "Import Lights" button.
 ---
@@ -95,7 +95,7 @@
   - ## Partially Working
     - ### All Lights (Parameters)
       - All Light Contributions
-       `[Checkbox insted of Slider, 0.5 or greater will turn on, else turn off.]`
+       `[Checkbox instead of Slider, 0.5 or greater will turn on, else turn off.]`
         - Camera
         - Diffuse
         - Specular
@@ -108,7 +108,7 @@
     - ### Quad Light
       - Spread `[Approximation]`
       - Soft Edge `[Approximation]`
-      - Roundness `[Checkbox insted of Slider, 0.5 or greater will convert to Disk Light]`
+      - Roundness `[Checkbox instead of Slider, 0.5 or greater will convert to Disk Light]`
       - Texture Map `[Should be Linear EXR, and directly connected to light.]`
     - ### Disk Light
       - Spread `[Approximation]`
